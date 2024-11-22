@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "../components/ui/card";
 import Search from "../components/ui/search";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchParties() {
     const allParties = [
@@ -31,6 +32,7 @@ export default function SearchParties() {
     ];
 
     const [filteredParties, setFilteredParties] = useState(allParties);
+    const navigate = useNavigate(); // Hook pour la navigation
 
     const handleSearch = (term) => {
         const lowerTerm = term.toLowerCase();
@@ -41,9 +43,11 @@ export default function SearchParties() {
         );
         setFilteredParties(results);
     };
+
     const handleParticipate = (partyId) => {
-        alert(`Vous avez rejoint la soirée avec l'ID : ${partyId}`);
+        navigate(`/participate/${partyId}`); // Redirige vers la page de participation
     };
+
     return (
         <div className="container mx-auto px-4 py-12">
             <h1 className="text-3xl font-bold mb-8 text-center">Rechercher une soirée</h1>
@@ -65,7 +69,6 @@ export default function SearchParties() {
                                 <p>
                                     <strong>Date :</strong> {party.date}
                                 </p>
-                                <p className="mt-2 text-gray-600">{party.description}</p>
                                 <p className="mt-2 text-gray-600">{party.description}</p>
                                 <button
                                     onClick={() => handleParticipate(party.id)}

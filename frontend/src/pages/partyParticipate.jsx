@@ -3,13 +3,13 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Button } from "../components/ui/Button";
 import Header from "../components/layout/header";
+import { participate } from "../api/participe";
 
 export default function PartyParticipation() {
     const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        guests: 1,
-        message: "",
+        userId: "",
+        eventId: "",
+        status: "pending",
     });
 
     const [successMessage, setSuccessMessage] = useState("");
@@ -23,19 +23,25 @@ export default function PartyParticipation() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMessage("");
         setSuccessMessage("");
 
-        // Simuler une API pour la participation
-        setTimeout(() => {
-            if (formData.name && formData.email) {
-                setSuccessMessage("Votre participation a été enregistrée avec succès !");
+        try {
+            const response = await participate(
+                formData.userId,
+                formData.eventId,
+                formData.status
+            );
+            if (response.success) {
+                setSuccessMessage(response.message);
             } else {
-                setErrorMessage("Veuillez remplir tous les champs obligatoires.");
+                setErrorMessage(response.message);
             }
-        }, 500);
+        } catch (error) {
+            setErrorMessage("Une erreur est survenue lors de la soumission.");
+        }
     };
 
     return (
@@ -44,39 +50,29 @@ export default function PartyParticipation() {
             <div className="container mx-auto px-4 py-12" style={{ maxWidth: "600px" }}>
                 <h1 className="text-2xl font-bold mb-6">Participation à la Soirée</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <Label htmlFor="name">Nom complet *</Label>
+                    <Label htmlFor="userId">ID Utilisateur *</Label>
                     <Input
-                        id="name"
-                        type="text"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <Label htmlFor="email">Adresse Email *</Label>
-                    <Input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <Label htmlFor="guests">Nombre de participants *</Label>
-                    <Input
-                        id="guests"
+                        id="userId"
                         type="number"
-                        min="1"
-                        value={formData.guests}
+                        value={formData.userId}
                         onChange={handleChange}
                         required
                     />
 
-                    <Label htmlFor="message">Message (optionnel)</Label>
+                    <Label htmlFor="eventId">ID Événement *</Label>
                     <Input
-                        id="message"
+                        id="eventId"
+                        type="number"
+                        value={formData.eventId}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <Label htmlFor="status">Statut *</Label>
+                    <Input
+                        id="status"
                         type="text"
-                        value={formData.message}
+                        value={formData.status}
                         onChange={handleChange}
                     />
 

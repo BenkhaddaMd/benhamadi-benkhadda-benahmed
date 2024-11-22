@@ -8,6 +8,7 @@ import CreatePartyPage from "./pages/createParty";
 import ProfilePage from "./pages/auth/profile";
 import PartyList from "./pages/listPartys";
 import PartyDetailsPage from "./pages/partyDetails";
+import PartyParticipation from "./pages/partyParticipate";
 function App() {
     return (
         <div className="App">
@@ -22,6 +23,7 @@ function App() {
                     <Route path="/auth/profile" element={<ProfilePage />} />
                     <Route path="/listPartys" element={<PartyList />} />
                     <Route path="/party/:id" element={<PartyDetailsPage />} />
+                    <Route path="/participate/:partyId" element={<PartyParticipation />} />
                 </Routes>
             </Router>
         </div>

@@ -22,8 +22,6 @@ export default function Signup() {
     const [success, setSuccess] = useState(false); // Indicateur de succès
 
     const convertDate = (dateString) => {
-        console.log(dateString);
-        
         const [year, month, day] = dateString.split("-"); // Sépare jour, mois, année
         return `${year}-${month}-${day}`; // Formate en yyyy-m-d
     };
